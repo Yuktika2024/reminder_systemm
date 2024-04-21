@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Image Sender</title>
+</head>
+<body>
+
+<h1>Send Images via WhatsApp</h1>
+
+<form id="imageForm" enctype="multipart/form-data" action="/upload" method="post">
+    <input type="file" name="images" id="imageInput" multiple accept="image/*">
+    <button type="button" id="sendButton">Send Images</button>
+</form>
+
+<script>
+    document.getElementById("sendButton").addEventListener("click", function() {
+        const formData = new FormData(document.getElementById("imageForm"));
+
+        fetch("/upload", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Images sent successfully!");
+            } else {
+                alert("Error sending images.");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch Error:", error);
+        });
+    });
+</script>
+
+</body>
+</html>
